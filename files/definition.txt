@@ -1,0 +1,13 @@
+for https server on python
+
+python httpserver -- security issues
+Flask -- micro framework
+Django -- macro framework
+
+create a virtual environment: python3 -m venv venv
+activate a virtual environment on windows: venv\Scripts\activate
+run the app: flask --app server.py run
+run the app on debug mode: flask --app server.py run --debug
+jinja - everything inside two curly braces {{ }} is a python expression that flask will evaluate
+
+pip3 freeze > requirements.txt  -- saves the list packages needed to run the project (based on venv)

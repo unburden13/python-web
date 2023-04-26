@@ -19,25 +19,25 @@ def write_to_file(data):
         database.write(f'\n{email}, {subject}, {message}')
 
 def write_to_csv(data):
-    try:
-        with open('./database.csv', 'a', newline='') as database:
-            email = data["email"]
-            subject = data["subject"]
-            message = data["message"]
-            fieldnames = ['email', 'subject', 'message']
-            csv_writer = csv.DictWriter(database, fieldnames=fieldnames, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-            if database.tell() == 0:  # if cursor == 0, meaning file is empty
-                csv_writer.writeheader()
-            csv_writer.writerow({'email':email, 'subject':subject, 'message':message})
-    except:
-        return 'something went wrong'
+    with open('./database.csv', 'a', newline='') as database:
+        email = data["email"]
+        subject = data["subject"]
+        message = data["message"]
+        fieldnames = ['email', 'subject', 'message']
+        csv_writer = csv.DictWriter(database, fieldnames=fieldnames, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        if database.tell() == 0:  # if cursor == 0, meaning file is empty
+            csv_writer.writeheader()
+        csv_writer.writerow({'email':email, 'subject':subject, 'message':message})
 
 @app.route('/submit_form', methods=['POST', 'GET'])
 def submit_form():
     if request.method == 'POST':
-        data = request.form.to_dict()
-        write_to_csv(data)
-        return redirect('/thankyou.html')
+        try:
+            data = request.form.to_dict()
+            write_to_csv(data)
+            return redirect('/thankyou.html')
+        except:
+            return 'did not save to database'
     else:
         return 'something went wrong'
 
